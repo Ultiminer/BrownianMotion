@@ -8,13 +8,13 @@ int main(int argc, char** argv)
     assert(argc==settings::numArguments);
     const char* mainPath=argv[0];
     srand(time(NULL));
-    
-    auto particles=GenerateParticles();
 
+    auto particles=GenerateParticles();
+    ParticleTracks tracks;
     for(size_t i=0; i<settings::stepNum;++i)
     {
-        StepParticles(particles); 
+        StepParticles(particles,tracks); 
     }
-
+    SaveTracks(tracks,"tracks");
     return 0; 
 }

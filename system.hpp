@@ -13,15 +13,7 @@ inline double Rand()noexcept
 {
     return rand()/(double)(RAND_MAX); 
 }
-inline void fun_assert(int condition, int line, const char* fileStr, const char* msg="")noexcept
-{
-    if(condition)return;
-    printf("assert triggered on line ");
-    exit(EXIT_FAILURE);
-}
 
-#define assert(x) fun_assert((x), __LINE__,__FILE__)
-#define assert_msg(x,msg) fun_assert((x), __LINE__,__FILE__,(msg))
 
 inline void Print(std::string str)noexcept
 {
@@ -47,7 +39,7 @@ inline void Print(int str)noexcept
 }
 inline void Print(double str)noexcept
 {
-    printf("%d",str); 
+    printf("%lf",str); 
 }
 template<typename ...Args>
 inline void Print(Args... args)noexcept
@@ -63,5 +55,16 @@ inline std::string input(const char* msg)noexcept
 
     return line; 
 }
+template<typename T>
+inline void fun_assert(int condition, int line, const char* fileStr, T msg)noexcept
+{
+    if(condition)return;
+    printf("assert triggered on line %i in file %s \n",line,fileStr);
+    Print(msg);
+    exit(EXIT_FAILURE);
+}
+
+#define assert(x) fun_assert((x), __LINE__,__FILE__,"")
+#define assert_msg(x,msg) fun_assert((x), __LINE__,__FILE__,(msg))
 
 #endif

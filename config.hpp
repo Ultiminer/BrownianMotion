@@ -1,6 +1,8 @@
 #ifndef CONFIG_HPP_
 #define CONFIG_HPP_
 #include <cstdint> 
+#include <math.h>
+
 #define CONSTa inline constexpr auto
 #define CONST inline constexpr 
 struct Point{
@@ -48,19 +50,20 @@ CONSTa particleNum{100};
 CONSTa width{1e4};//width in micrometer
 CONSTa height{1e4};//height in micrometer
 CONSTa length{1e3};//length in micrometer
-CONSTa deltaTime{1};//deltaTime in milliseconds
-CONST Point driftStep{1,1,1};//how many micrometers you wanna step 
+CONSTa deltaTime{1};//deltaTime in seconds
+CONST Point driftVelocity{0,0,0};
+CONST Point driftStep{driftVelocity*deltaTime};//how many micrometers you wanna step 
 CONSTa numArguments{1};
-CONSTa viscosity{10};//viscosity in mircometer^2
-CONSTa boltzmann{10};//boltzmann in micrometer
 CONSTa beadSize{1}; //beadSize in micrometer
 CONSTa beadRadius{beadSize/2.0}; //beadSize in micrometer
 CONSTa temperature{300};//temperature in Kelvin
-CONSTa pi{3.141592653589793238};
+CONSTa pi{3.14159265358979};
 CONSTa dimensions{3}; 
-CONSTa diffusion{boltzmann*temperature/(6*pi*viscosity*beadRadius)};
+CONSTa diffusion{0.34};
 CONSTa stepSizeSqu{2*dimensions*diffusion*deltaTime};
-CONSTa stepNum{300};
+inline double stepSize{sqrt(stepSizeSqu)};
+CONSTa stepNum{10};
+
 };
 
 
