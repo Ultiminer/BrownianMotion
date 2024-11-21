@@ -47,11 +47,11 @@ constexpr double Squaredist(const Point& a, const Point& b)noexcept
 namespace settings
 {
 CONSTa particleNum{100};
-CONSTa width{1e4};//width in micrometer
-CONSTa height{1e4};//height in micrometer
-CONSTa length{1e3};//length in micrometer
+CONSTa width{200};//width in micrometer
+CONSTa height{200};//height in micrometer
+CONSTa length{100};//length in micrometer
 CONSTa deltaTime{1};//deltaTime in seconds
-CONST Point driftVelocity{0,0,0};
+CONST Point driftVelocity{4,4,4};
 CONST Point driftStep{driftVelocity*deltaTime};//how many micrometers you wanna step 
 CONSTa numArguments{1};
 CONSTa beadSize{1}; //beadSize in micrometer
@@ -59,7 +59,7 @@ CONSTa beadRadius{beadSize/2.0}; //beadSize in micrometer
 CONSTa temperature{300};//temperature in Kelvin
 CONSTa pi{3.14159265358979};
 CONSTa dimensions{3}; 
-CONSTa diffusion{0.34};
+CONSTa diffusion{0.9};
 CONSTa stepSizeSqu{2*dimensions*diffusion*deltaTime};
 inline double stepSize{sqrt(stepSizeSqu)};
 CONSTa stepNum{10};

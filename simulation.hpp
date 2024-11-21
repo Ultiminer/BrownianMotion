@@ -7,18 +7,22 @@
 #include <vector>
 #include <fstream>
 
-std::array<Point,settings::particleNum> GenerateParticles()
+typedef std::array<std::vector<Point>,settings::particleNum> ParticleTracks; 
+typedef std::array<Point,settings::particleNum> ParticleSet;
+
+
+ParticleSet GenerateParticles()
 {
-    std::array<Point,settings::particleNum> ret; 
+    ParticleSet ret; 
     
     for(size_t i=0; i<settings::particleNum;++i)
     ret.at(i)={Rand()*settings::width,Rand()*settings::height,Rand()*settings::length};
 
     return ret; 
 }
-typedef std::array<std::vector<Point>,settings::particleNum> ParticleTracks; 
 
-inline void StepParticles(std::array<Point,settings::particleNum>& particles, ParticleTracks& listParticles)noexcept
+
+inline void StepParticles(ParticleSet& particles, ParticleTracks& listParticles)noexcept
 {
     for(size_t i=0; i<particles.size();++i)
     {
@@ -40,7 +44,7 @@ inline void SaveTracks(const ParticleTracks& tracks, std::string path)noexcept
     std::ofstream File(path+"3d",std::ios::trunc|std::ios::binary);
     for(auto& particle:tracks)
     {
-        for(size_t i=0; i<particle.size()-1;++i)File<<particle.at(i).x<<" "<<particle.at(i).y<<" "<<particle.at(i).z<<",";
+        for(size_t i=0; i<particle.size()-1;++i)File<<particle.at(i).x<<" "<<particle.at(i).y<<" "<<particle.at(i).z<<" ";
         if(particle.size())
         File<<particle.back().x<<" "<<particle.back().y<<" "<<particle.back().z;
         File<<"\n";
@@ -50,7 +54,7 @@ inline void SaveTracks(const ParticleTracks& tracks, std::string path)noexcept
     File.open(path+"2d",std::ios::trunc|std::ios::binary);
     for(auto& particle:tracks)
     {
-        for(size_t i=0; i<particle.size()-1;++i)File<<particle.at(i).x<<" "<<particle.at(i).y<<",";
+        for(size_t i=0; i<particle.size()-1;++i)File<<particle.at(i).x<<" "<<particle.at(i).y<<" ";
         if(particle.size())
         File<<particle.back().x<<" "<<particle.back().y;
         File<<"\n";
@@ -60,7 +64,7 @@ inline void SaveTracks(const ParticleTracks& tracks, std::string path)noexcept
     File.open(path+"1d",std::ios::trunc|std::ios::binary);
     for(auto& particle:tracks)
     {
-        for(size_t i=0; i<particle.size()-1;++i)File<<particle.at(i).x<<",";
+        for(size_t i=0; i<particle.size()-1;++i)File<<particle.at(i).x<<" ";
         if(particle.size())
         File<<particle.back().x;
         File<<"\n";
