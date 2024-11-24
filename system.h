@@ -6,12 +6,18 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include <random>
 
+typedef std::mt19937 rng_type;
+std::uniform_int_distribution<rng_type::result_type> udist(0, RAND_MAX);
+
+rng_type rng;
 
 //Returns an evenly distributed random number between zero and one
 inline double Rand()noexcept
 {
-    return rand()/(double)(RAND_MAX); 
+  rng_type::result_type random_number = udist(rng);
+  return (double)random_number/(double)(RAND_MAX); 
 }
 
 
@@ -66,5 +72,39 @@ inline void fun_assert(int condition, int line, const char* fileStr, T msg)noexc
 
 #define assert(x) fun_assert((x), __LINE__,__FILE__,"")
 #define assert_msg(x,msg) fun_assert((x), __LINE__,__FILE__,(msg))
+struct Point{
+double x;
+double y; 
+double z; 
+};
+
+constexpr int operator==(const Point& a, const Point& b)noexcept
+{
+    return (a.x==b.x)&&(a.y==b.y)&&(a.z==b.z);
+}
+constexpr Point operator+(const Point& a, const Point& b)noexcept
+{
+    return {a.x+b.x,a.y+b.y,a.z+b.z};
+}
+constexpr Point operator-(const Point& a, const Point& b)noexcept
+{
+    return {a.x-b.x,a.y-b.y,a.z-b.z};
+}
+constexpr double operator*(const Point& a, const Point& b)noexcept
+{
+    return a.x*b.x+a.y*b.y+a.z*b.z;
+}
+constexpr Point operator*(const Point& a, const double x)noexcept
+{
+    return {a.x*x,a.y*x,a.z*x};
+}
+constexpr Point operator*(const double x,const Point& a)noexcept
+{
+    return {a.x*x,a.y*x,a.z*x};
+}
+constexpr double Squaredist(const Point& a, const Point& b)noexcept
+{
+    return (a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y)+(a.z-b.z)*(a.z-b.z); 
+}
 
 #endif
